@@ -26,12 +26,12 @@ const HomePage = () => {
     const fetchData = async () => {
       try {
         // Fetch all markets
-        const marketsResponse = await axios.get('https://only-backend-je4j.onrender.com/api/markets');
+        const marketsResponse = await axios.get('https://backend-pbn5.onrender.com/api/markets');
         const sortedMarkets = marketsResponse.data.sort((a, b) => b.isBettingOpen - a.isBettingOpen);
         setAllMarkets(sortedMarkets);
 
         // Fetch banner image URL
-        const settingsResponse = await axios.get('https://only-backend-je4j.onrender.com/api/admin/platform-settings');
+        const settingsResponse = await axios.get('https://backend-pbn5.onrender.com/api/admin/platform-settings');
         setBannerImageUrl(settingsResponse.data.bannerImageUrl);
       } catch (error) {
         console.error('Error fetching data:', error);

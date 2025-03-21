@@ -33,11 +33,11 @@ const JodiDigit = () => {
 
     try {
       const walletResponse = axios.get(
-        "https://only-backend-je4j.onrender.com/api/wallet/balance",
+        "https://backend-pbn5.onrender.com/api/wallet/balance",
         { headers }
       );
       const betsResponse = axios.get(
-        "https://only-backend-je4j.onrender.com/api/bets/user",
+        "https://backend-pbn5.onrender.com/api/bets/user",
         { headers }
       );
 
@@ -113,7 +113,7 @@ const JodiDigit = () => {
       await Promise.all(
         bets.map((bet) =>
           axios.post(
-            "https://only-backend-je4j.onrender.com/api/bets/place",
+            "https://backend-pbn5.onrender.com/api/bets/place",
             {
               marketName,
               gameName,

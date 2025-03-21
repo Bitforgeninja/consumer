@@ -31,7 +31,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
 
       try {
         const { data } = await axios.get(
-          'https://only-backend-je4j.onrender.com/api/users/profile',
+          'https://backend-pbn5.onrender.com/api/users/profile',
           {
             headers: { Authorization: `Bearer ${token}` },
           }

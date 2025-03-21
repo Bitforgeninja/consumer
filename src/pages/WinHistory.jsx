@@ -19,7 +19,7 @@ const WinHistory = () => {
 
       try {
         const { data } = await axios.get(
-          "https://only-backend-je4j.onrender.com/api/bets/user",
+          "https://backend-pbn5.onrender.com/api/bets/user",
           { headers: { Authorization: `Bearer ${token}` } }
         );
 

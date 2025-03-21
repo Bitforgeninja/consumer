@@ -20,7 +20,7 @@ const Profile = () => {
       try {
         // Fetch profile data
         const profileResponse = await axios.get(
-          "https://only-backend-je4j.onrender.com/api/users/profile",
+          "https://backend-pbn5.onrender.com/api/users/profile",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -28,7 +28,7 @@ const Profile = () => {
 
         // Fetch wallet balance
         const balanceResponse = await axios.get(
-          "https://only-backend-je4j.onrender.com/api/wallet/balance",
+          "https://backend-pbn5.onrender.com/api/wallet/balance",
           {
             headers: { Authorization: `Bearer ${token}` },
           }

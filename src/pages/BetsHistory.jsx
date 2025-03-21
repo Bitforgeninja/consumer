@@ -17,7 +17,7 @@ const BetsHistory = () => {
 
     const fetchBets = async () => {
       try {
-        const response = await axios.get('https://only-backend-je4j.onrender.com/api/bets/user', {
+        const response = await axios.get('https://backend-pbn5.onrender.com/api/bets/user', {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'

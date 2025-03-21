@@ -15,7 +15,7 @@ const ForgotPassword = () => {
 
     try {
       const { data } = await axios.post(
-        "https://only-backend-je4j.onrender.com/api/users/forgot-password",
+        "https://backend-pbn5.onrender.com/api/users/forgot-password",
         { email }
       );
 

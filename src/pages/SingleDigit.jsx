@@ -28,7 +28,7 @@ const SingleDigit = () => {
     }
     try {
       const response = await axios.get(
-        "https://only-backend-je4j.onrender.com/api/wallet/balance",
+        "https://backend-pbn5.onrender.com/api/wallet/balance",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -51,7 +51,7 @@ const SingleDigit = () => {
     }
     try {
       const response = await axios.get(
-        "https://only-backend-je4j.onrender.com/api/bets/user/",
+        "https://backend-pbn5.onrender.com/api/bets/user/",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -125,7 +125,7 @@ const SingleDigit = () => {
 
       for (const bet of bets) {
         const response = await axios.post(
-          "https://only-backend-je4j.onrender.com/api/bets/place",
+          "https://backend-pbn5.onrender.com/api/bets/place",
           {
             marketName,
             gameName,

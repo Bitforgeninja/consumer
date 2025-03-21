@@ -17,7 +17,7 @@ const AddFunds = () => {
   useEffect(() => {
     const fetchPlatformSettings = async () => {
       try {
-        const response = await axios.get('https://only-backend-je4j.onrender.com/api/admin/platform-settings');
+        const response = await axios.get('https://backend-pbn5.onrender.com/api/admin/platform-settings');
         setUpiId(response.data.upiId);
         setQrCodeUrl(response.data.qrCodeUrl);
       } catch (error) {
@@ -55,7 +55,7 @@ const AddFunds = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'https://only-backend-je4j.onrender.com/api/wallet/add-funds',
+        'https://backend-pbn5.onrender.com/api/wallet/add-funds',
         formData,
         {
           headers: {

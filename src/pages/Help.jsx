@@ -14,7 +14,7 @@ const Help = () => {
   useEffect(() => {
     const fetchAdminContact = async () => {
       try {
-        const response = await axios.get('https://only-backend-je4j.onrender.com/api/admin/platform-settings');
+        const response = await axios.get('https://backend-pbn5.onrender.com/api/admin/platform-settings');
         const { name, email, phone, address } = response.data.adminContact;
         setAdminContact({ name, email, phone, address });
       } catch (error) {

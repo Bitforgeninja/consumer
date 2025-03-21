@@ -21,7 +21,7 @@ const ResetPasswordPage = () => {
 
     try {
       const response = await fetch(
-        `https://only-backend-je4j.onrender.com/api/users/reset-password/${token}`,
+        `https://backend-pbn5.onrender.com/api/users/reset-password/${token}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

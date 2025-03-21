@@ -9,7 +9,7 @@ const GameRates = () => {
   useEffect(() => {
     const fetchRates = async () => {
       try {
-        const response = await axios.get('https://only-backend-je4j.onrender.com/api/admin/winning-ratios', {
+        const response = await axios.get('https://backend-pbn5.onrender.com/api/admin/winning-ratios', {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }

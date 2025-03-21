@@ -21,7 +21,7 @@ const Header = () => {
         setIsLoggedIn(true);
         try {
           const { data } = await axios.get(
-            'https://only-backend-je4j.onrender.com/api/wallet/balance',
+            'https://backend-pbn5.onrender.com/api/wallet/balance',
             {
               headers: { Authorization: `Bearer ${token}` },
             }

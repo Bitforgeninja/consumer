@@ -28,13 +28,13 @@ const TriplePana = () => {
 
     try {
       const [walletResponse, betsResponse] = await Promise.all([
-        axios.get('https://only-backend-je4j.onrender.com/api/wallet/balance', {
+        axios.get('https://backend-pbn5.onrender.com/api/wallet/balance', {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
         }),
-        axios.get('https://only-backend-je4j.onrender.com/api/bets/user/', {
+        axios.get('https://backend-pbn5.onrender.com/api/bets/user/', {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -108,7 +108,7 @@ const TriplePana = () => {
       const responses = await Promise.all(
         bets.map(bet =>
           axios.post(
-            "https://only-backend-je4j.onrender.com/api/bets/place",
+            "https://backend-pbn5.onrender.com/api/bets/place",
             {
               marketName,
               gameName: "Triple Pana",

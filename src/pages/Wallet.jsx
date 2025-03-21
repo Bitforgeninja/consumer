@@ -23,8 +23,8 @@ const Wallet = () => {
     const fetchBalanceAndTransactions = async () => {
       try {
         const [balanceResponse, transactionsResponse] = await Promise.all([
-          axios.get('https://only-backend-je4j.onrender.com/api/wallet/balance', { headers }),
-          axios.get('https://only-backend-je4j.onrender.com/api/wallet/transactions', { headers })
+          axios.get('https://backend-pbn5.onrender.com/api/wallet/balance', { headers }),
+          axios.get('https://backend-pbn5.onrender.com/api/wallet/transactions', { headers })
         ]);
 
         setBalance(balanceResponse.data.walletBalance);
@@ -64,7 +64,7 @@ const Wallet = () => {
       });
   
       const response = await axios.post(
-        'https://only-backend-je4j.onrender.com/api/wallet/add-funds',
+        'https://backend-pbn5.onrender.com/api/wallet/add-funds',
         {
           transactionId,
           amount,

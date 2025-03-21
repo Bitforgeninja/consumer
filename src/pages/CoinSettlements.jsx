@@ -20,7 +20,7 @@ const CoinSettlements = () => {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
         };
-        const response = await axios.get('https://only-backend-je4j.onrender.com/api/wallet/transactions', { headers });
+        const response = await axios.get('https://backend-pbn5.onrender.com/api/wallet/transactions', { headers });
         const filteredTransactions = response.data.transactions.filter(
           tx => tx.status === "approved" || tx.status === "Rejected"
         );

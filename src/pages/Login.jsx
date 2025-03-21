@@ -16,7 +16,7 @@ const Login = () => {
     setIsLoading(true);
     try {
       const { data } = await axios.post(
-        "https://only-backend-je4j.onrender.com/api/auth/login",
+        "https://backend-pbn5.onrender.com/api/auth/login",
         { email, password }
       );
 

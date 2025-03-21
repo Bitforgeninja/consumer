@@ -36,7 +36,7 @@ const MarketChart = () => {
       try {
         console.log("📢 Fetching Market ID for:", marketName);
         const response = await axios.get(
-          `https://only-backend-je4j.onrender.com/api/markets/get-market-id/${marketName}`
+          `https://backend-pbn5.onrender.com/api/markets/get-market-id/${marketName}`
         );
 
         if (response.data.marketId) {
@@ -71,7 +71,7 @@ const MarketChart = () => {
         console.log("🔑 Token being sent:", token);
 
         const response = await axios.get(
-          `https://only-backend-je4j.onrender.com/api/markets/get-results/${marketId}`,
+          `https://backend-pbn5.onrender.com/api/markets/get-results/${marketId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

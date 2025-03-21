@@ -43,7 +43,7 @@ const Register = () => {
     if (!validateForm()) return; // Prevent API call if form is invalid
 
     try {
-      await axios.post('https://only-backend-je4j.onrender.com/api/auth/register', formData);
+      await axios.post('https://backend-pbn5.onrender.com/api/auth/register', formData);
       alert('Registration successful! Please log in.');
       navigate('/login'); // Redirect to login after registration
     } catch (error) {
