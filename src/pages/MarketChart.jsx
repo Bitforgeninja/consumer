@@ -4,17 +4,21 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-// Format "DD-MM-YYYY" to Date object
-const parseDate = (dateStr) => {
-  const [day, month, year] = dateStr.split("-").map(Number);
-  return new Date(year, month - 1, day); // JS Date uses 0-indexed months
+// 🛠 Parse DD-MM-YYYY to a proper Date object
+const parseDate = (str) => {
+  const [day, month, year] = str.split("-");
+  return new Date(`${year}-${month}-${day}`);
 };
 
-const formatDate = (date) =>
-  date.toLocaleDateString("en-GB"); // Format as DD-MM-YYYY
+// 🛠 Format date as DD-MM-YYYY
+const formatDate = (date) => {
+  return date.toLocaleDateString("en-GB"); // Returns 31-12-2024
+};
 
-const getDayName = (date) =>
-  date.toLocaleDateString("en-US", { weekday: "long" });
+// 🛠 Get the day name
+const getDayName = (date) => {
+  return date.toLocaleDateString("en-US", { weekday: "long" }); // Returns: Monday
+};
 
 const MarketChart = () => {
   const location = useLocation();
@@ -25,17 +29,24 @@ const MarketChart = () => {
   const [weeklyResults, setWeeklyResults] = useState([]);
 
   useEffect(() => {
-    if (!marketName) return;
+    if (!marketName) {
+      console.error("❌ Market Name is missing. Cannot fetch Market ID.");
+      return;
+    }
+
     const fetchMarketId = async () => {
       try {
-        const res = await axios.get(
-          `https://backend-pbn5.onrender.com/api/markets/get-market-id/${marketName}`
+        const response = await axios.get(
+          `https://only-backend-je4j.onrender.com/api/markets/get-market-id/${marketName}`
         );
-        setMarketId(res.data.marketId);
+        if (response.data.marketId) {
+          setMarketId(response.data.marketId);
+        }
       } catch (error) {
-        console.error("❌ Error fetching Market ID:", error.message);
+        console.error("❌ Error fetching market ID:", error.message);
       }
     };
+
     fetchMarketId();
   }, [marketName]);
 
@@ -45,19 +56,21 @@ const MarketChart = () => {
     const fetchResults = async () => {
       try {
         const token = localStorage.getItem("token");
-        if (!token) return navigate("/login");
 
-        const res = await axios.get(
-          `https://backend-pbn5.onrender.com/api/markets/get-results/${marketId}`,
+        if (!token) {
+          navigate("/login");
+          return;
+        }
+
+        const response = await axios.get(
+          `https://only-backend-je4j.onrender.com/api/markets/get-results/${marketId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
 
-        const rawData = res.data;
         const weeklyData = {};
-
-        rawData.forEach((entry) => {
+        response.data.forEach((entry) => {
           const date = parseDate(entry.date);
           if (isNaN(date)) {
             console.warn("❌ Invalid date:", entry.date);
@@ -65,33 +78,28 @@ const MarketChart = () => {
           }
 
           const startOfWeek = new Date(date);
-          startOfWeek.setDate(date.getDate() - date.getDay() + 1); // Monday
+          startOfWeek.setDate(date.getDate() - date.getDay() + 1);
           const endOfWeek = new Date(startOfWeek);
-          endOfWeek.setDate(startOfWeek.getDate() + 6); // Sunday
+          endOfWeek.setDate(startOfWeek.getDate() + 6);
 
           const weekKey = `${formatDate(startOfWeek)} to ${formatDate(endOfWeek)}`;
-          const dayName = getDayName(date); // "Monday", etc.
+          const dayName = getDayName(date);
 
           if (!weeklyData[weekKey]) {
             weeklyData[weekKey] = {
               dateRange: weekKey,
               results: {},
-              weekStart: startOfWeek.getTime(), // for sorting
             };
           }
 
           weeklyData[weekKey].results[dayName] = {
-            left: entry.openNumber?.split("") || ["-", "-", "-"],
-            center: entry.jodiResult || "-",
-            right: entry.closeNumber?.split("") || ["-", "-", "-"],
+            left: entry.openNumber.split(""),
+            center: entry.jodiResult,
+            right: entry.closeNumber.split(""),
           };
         });
 
-        const sortedWeeks = Object.values(weeklyData).sort(
-          (a, b) => b.weekStart - a.weekStart
-        );
-
-        setWeeklyResults(sortedWeeks);
+        setWeeklyResults(Object.values(weeklyData));
       } catch (error) {
         console.error("❌ Error fetching market results:", error.message);
       }
@@ -110,9 +118,7 @@ const MarketChart = () => {
         <span>Back</span>
       </button>
 
-      <h2 className="text-2xl font-bold text-center mb-4">
-        Matka Market Panel Record
-      </h2>
+      <h2 className="text-2xl font-bold text-center mb-4">Matka Market Panel Record</h2>
 
       <div className="overflow-x-auto">
         <table className="w-full border-collapse border border-gray-700">
@@ -137,33 +143,22 @@ const MarketChart = () => {
                   </td>
                   {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(
                     (day, idx) => {
-                      const dayData = week.results[day] || {
-                        left: ["-", "-", "-"],
-                        center: "-",
-                        right: ["-", "-", "-"],
-                      };
-
+                      const dayData = week.results[day] || { left: ["-"], center: "-", right: ["-"] };
                       return (
                         <td key={idx} className="p-2 border border-gray-700">
                           <table className="w-full border-collapse border border-gray-500">
                             <tbody>
-                              {[0, 1, 2].map((rowIndex) => (
+                              {dayData.left.map((_, rowIndex) => (
                                 <tr key={rowIndex} className="text-center">
-                                  <td className="border border-gray-700 p-1">
-                                    {dayData.left[rowIndex] || "-"}
-                                  </td>
+                                  <td className="border border-gray-700 p-1">{dayData.left[rowIndex]}</td>
                                   <td className="border border-gray-700 p-1">
                                     {rowIndex === 1 ? (
-                                      <strong className="text-2xl text-red-500">
-                                        {dayData.center}
-                                      </strong>
+                                      <strong className="text-2xl text-red-500">{dayData.center}</strong>
                                     ) : (
                                       ""
                                     )}
                                   </td>
-                                  <td className="border border-gray-700 p-1">
-                                    {dayData.right[rowIndex] || "-"}
-                                  </td>
+                                  <td className="border border-gray-700 p-1">{dayData.right[rowIndex]}</td>
                                 </tr>
                               ))}
                             </tbody>
