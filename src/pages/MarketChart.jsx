@@ -52,7 +52,7 @@ const MarketChart = () => {
     if (!token) return navigate("/login");
 
     const res = await axios.get(
-      `https://only-backend-je4j.onrender.com/api/markets/get-results/${marketId}`,
+      `https://backend-pbn5.onrender.com/api/markets/get-results/${marketId}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
