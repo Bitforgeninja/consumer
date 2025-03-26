@@ -47,57 +47,81 @@ const MarketChart = () => {
   useEffect(() => {
     if (!marketId) return;
     const fetchResults = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) return navigate("/login");
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return navigate("/login");
 
-        const res = await axios.get(
-          `https://backend-pbn5.onrender.com/api/markets/get-results/${marketId}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        const rawData = res.data;
-        const weeklyData = {};
-
-        rawData.forEach((entry) => {
-          const date = parseDate(entry.date);
-          if (isNaN(date)) return;
-
-          const startOfWeek = new Date(date);
-          startOfWeek.setDate(date.getDate() - (date.getDay() === 0 ? 6 : date.getDay() - 1)); // Monday
-          const endOfWeek = new Date(startOfWeek);
-          endOfWeek.setDate(startOfWeek.getDate() + 6); // Sunday
-
-          const weekKey = `${formatDate(startOfWeek)} to ${formatDate(endOfWeek)}`;
-          const dayName = getDayName(date); // "Monday", etc.
-
-          if (!weeklyData[weekKey]) {
-            weeklyData[weekKey] = {
-              dateRange: weekKey,
-              weekStart: startOfWeek.getTime(),
-              results: {},
-            };
-          }
-
-          weeklyData[weekKey].results[dayName] = {
-            left: entry.openNumber?.split("") || ["-", "-", "-"],
-            center: entry.jodiResult || "-",
-            right: entry.closeNumber?.split("") || ["-", "-", "-"],
-          };
-        });
-
-        // Sort weeks in ascending order (oldest first)
-        const sortedWeeks = Object.values(weeklyData).sort(
-          (a, b) => a.weekStart - b.weekStart
-        );
-
-        setWeeklyResults(sortedWeeks);
-      } catch (error) {
-        console.error("❌ Error fetching market results:", error.message);
+    const res = await axios.get(
+      `https://only-backend-je4j.onrender.com/api/markets/get-results/${marketId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
       }
-    };
+    );
+
+    const rawData = res.data;
+
+    // 🧹 Deduplicate by date with valid entry preferred
+    const latestByDate = {};
+    rawData.forEach((entry) => {
+      const dateKey = entry.date;
+      const isDummy =
+        (entry.openNumber === "000" || entry.openNumber === "0") &&
+        (entry.closeNumber === "000" || entry.closeNumber === "0");
+
+      if (!latestByDate[dateKey]) {
+        latestByDate[dateKey] = entry;
+      } else {
+        const existing = latestByDate[dateKey];
+        const existingIsDummy =
+          (existing.openNumber === "000" || existing.openNumber === "0") &&
+          (existing.closeNumber === "000" || existing.closeNumber === "0");
+
+        // Keep the valid one if it exists
+        if (existingIsDummy && !isDummy) {
+          latestByDate[dateKey] = entry;
+        }
+      }
+    });
+
+    // 🗓️ Organize into weekly results
+    const weeklyData = {};
+
+    Object.values(latestByDate).forEach((entry) => {
+      const date = parseDate(entry.date);
+      if (isNaN(date)) return;
+
+      const startOfWeek = new Date(date);
+      startOfWeek.setDate(date.getDate() - (date.getDay() === 0 ? 6 : date.getDay() - 1));
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+      const weekKey = `${formatDate(startOfWeek)} to ${formatDate(endOfWeek)}`;
+      const dayName = getDayName(date);
+
+      if (!weeklyData[weekKey]) {
+        weeklyData[weekKey] = {
+          dateRange: weekKey,
+          weekStart: startOfWeek.getTime(),
+          results: {},
+        };
+      }
+
+      weeklyData[weekKey].results[dayName] = {
+        left: entry.openNumber?.split("") || ["-", "-", "-"],
+        center: entry.jodiResult || "-",
+        right: entry.closeNumber?.split("") || ["-", "-", "-"],
+      };
+    });
+
+    const sortedWeeks = Object.values(weeklyData).sort(
+      (a, b) => b.weekStart - a.weekStart
+    );
+
+    setWeeklyResults(sortedWeeks);
+  } catch (error) {
+    console.error("❌ Error fetching market results:", error.message);
+  }
+};
 
     fetchResults();
   }, [marketId, navigate]);
