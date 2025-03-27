@@ -8,11 +8,6 @@ const MarketPlay = () => {
   const navigate = useNavigate();
   const { gameName } = useParams();
 
-  const marketTimes = {
-    openTime: '10:00 AM',
-    closeTime: '5:00 PM',
-  };
-
   const options = [
     {
       name: 'Single Digit',
@@ -42,12 +37,12 @@ const MarketPlay = () => {
     {
       name: 'Half Sangam',
       path: '/half-sangam',
-      image: 'https://example.com/path/to/half_sangam_image.webp',  // Replace with actual URL
+      image: 'https://github.com/Bitforgeninja/backend/blob/main/WhatsApp%20Image%202025-03-25%20at%2012.51.34_3a11b3fe.jpg?raw=true',
     },
     {
       name: 'Full Sangam',
       path: '/full-sangam',
-      image: 'https://example.com/path/to/full_sangam_image.webp',  // Replace with actual URL
+      image: 'https://github.com/Bitforgeninja/backend/blob/main/WhatsApp%20Image%202025-03-25%20at%2012.51.34_6589ea01.jpg?raw=true',  // Replace with actual URL
     }
   ];
 
@@ -55,18 +50,24 @@ const MarketPlay = () => {
     <div className="p-4 min-h-screen bg-gray-900 text-white">
       {/* Back Arrow and Market Info Container */}
       <div className="bg-gray-800 p-3 shadow-md flex items-center space-x-3 rounded-md">
-        <button
-          className="text-white text-lg hover:scale-110 transition-transform"
-          onClick={() => navigate(-1)}
-        >
-          <FontAwesomeIcon icon={faHistory} />
-        </button>
+      <button
+      onClick={() => navigate(-1)}
+      className="mr-3 bg-transparent text-white flex items-center space-x-1 p-1 rounded-full hover:bg-gray-700 transition duration-300"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth="2"
+        stroke="currentColor"
+        className="w-5 h-5"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+      </svg>
+      <span>Back</span>
+    </button>
         <div>
-          <h2 className="text-lg font-bold">{marketName}</h2>
-          <p className="text-xs text-gray-400 mt-1">
-            Open: <span className="text-green-400">{marketTimes.openTime}</span> | Close:{" "}
-            <span className="text-red-400">{marketTimes.closeTime}</span>
-          </p>
+          <h2 className="text-lg font-bold"> {marketName}</h2>
         </div>
       </div>
 
