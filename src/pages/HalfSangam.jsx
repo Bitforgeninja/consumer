@@ -178,7 +178,7 @@ const HalfSangam = () => {
         <input type="text" placeholder="Enter Pana (3-digit)" value={panaInput} onChange={(e) => setPanaInput(e.target.value)} className="col-span-1 px-3 py-2 bg-white text-black rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-600" />
         <input type="number" placeholder="Enter Points" value={points} onChange={(e) => setPoints(e.target.value)} className="col-span-1 px-3 py-2 bg-white text-black rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-600" />
         <button onClick={handleAddBet} className="col-span-1 bg-purple-600 hover:bg-purple-700 px-3 py-2 rounded-md font-bold text-sm transition duration-300">
-          Add Bet
+          Add
         </button>
       </div>
 
@@ -217,7 +217,7 @@ const HalfSangam = () => {
       </div>
 
       <button onClick={handlePlaceBet} className="w-full bg-green-600 hover:bg-green-700 py-2 rounded-md font-bold text-sm transition duration-300 mb-4">
-        Place Bets
+        Proceed
       </button>
 
       <div className="bg-gray-800 p-4 rounded-md shadow-md">
